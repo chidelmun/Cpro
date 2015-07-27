@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <iostream>
 #include "QMessageBox"
+#include <QFileDialog>
+#include <string>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->progressBar->reset();
+    this->setFixedSize(600,400);
 }
 
 MainWindow::~MainWindow()
@@ -21,9 +24,9 @@ void MainWindow::on_pushButton_clicked()
 {
    QString src =  ui->pushButton->text();
    QString des = ui->pushButton_2->text();
-//   if(qstrcmp(src,des) != 0){
-//   QMessageBox::critical(this,"ERROR",NULL,"SRC and DES Mismatch");
-//   }
+
+
+
     ui->progressBar->reset();
     for(int i =0;i<1000 ;i++){
         ui->progressBar->setValue(i);
@@ -31,11 +34,27 @@ void MainWindow::on_pushButton_clicked()
             break;
         system("sleep 0.1");
     }
-    ui->pushButton->setText("Done");
+    std::string str = ui->lineEdit->text().toStdString();
+    std::cout << str << std::endl;
+    system("");
+   QMessageBox::information(this,"DONE",NULL,"Complete");
 
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
 
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    QString src = QFileDialog::getOpenFileName(
+
+                this,
+                tr("Browse to Location..."),
+                "~/Desktop",
+                "All files (*.*);;Pictures (*.jpg)"
+
+                );
+    ui->lineEdit->setText(src);
 }
